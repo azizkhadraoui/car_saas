@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Facture {{invoiceNumber}}</title>
+  <style>
+    body {
+      font-family: "Arial", sans-serif;
+      font-size: 12px;
+      color: #000;
+      margin: 20px;
+      background: #fff;
+      line-height: 1.2;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 30px;
+    }
+    .invoice-title {
+      text-align: center;
+      flex: 1;
+      margin: 0 20px;
+    }
+    .invoice-title h1 {
+      font-size: 28px;
+      margin: 0 0 10px 0;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+    .invoice-number {
+      font-size: 18px;
+      margin: 5px 0;
+      font-weight: bold;
+    }
+    .invoice-date {
+      font-size: 12px;
+      margin: 5px 0;
+    }
+    .party {
+      width: 280px;
+    }
+    .party h3 {
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-decoration: underline;
+      text-transform: uppercase;
+    }
+    .party p {
+      margin: 3px 0;
+      font-size: 11px;
+      line-height: 1.4;
+    }
+    .items-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 25px 0;
+    }
+    .items-table th {
+      background: #f5f5f5;
+      padding: 10px 6px;
+      text-align: center;
+      font-size: 9px;
+      font-weight: bold;
+      border: 1px solid #333;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      line-height: 1.2;
+    }
+    .items-table td {
+      padding: 10px 6px;
+      border: 1px solid #333;
+      font-size: 11px;
+      text-align: center;
+    }
+    .items-table td:nth-child(2) {
+      text-align: left;
+      padding-left: 8px;
+    }
+    .tva-table {
+      width: 350px;
+      border-collapse: collapse;
+      margin: 25px 0;
+    }
+    .tva-table th, .tva-table td {
+      padding: 8px 10px;
+      border: 1px solid #333;
+      font-size: 11px;
+      text-align: center;
+      font-weight: bold;
+    }
+    .tva-table th {
+      background: #f5f5f5;
+      text-transform: uppercase;
+    }
+    .totals {
+      width: 350px;
+      margin-left: auto;
+      margin-top: 25px;
+    }
+    .totals table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .totals td {
+      padding: 6px 12px;
+      font-size: 12px;
+      border: none;
+      border-bottom: 1px solid #ddd;
+    }
+    .totals tr:last-child td {
+      font-weight: bold;
+      font-size: 13px;
+      border-top: 2px solid #333;
+      border-bottom: 2px solid #333;
+      padding: 8px 12px;
+    }
+    .totals td:first-child {
+      text-align: left;
+    }
+    .totals td:last-child {
+      text-align: right;
+    }
+    .amount-words {
+      margin-top: 25px;
+      font-size: 11px;
+      font-style: italic;
+      text-align: justify;
+      line-height: 1.4;
+    }
+    .footer {
+      margin-top: 40px;
+      font-size: 11px;
+      text-align: center;
+      border-top: 1px solid #ddd;
+      padding-top: 15px;
+    }
+    .footer p {
+      margin: 3px 0;
+      display: inline-block;
+      margin-right: 20px;
+    }
+    .footer-row {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="header">
+    <div class="party">
+      <h3>Fournisseur</h3>
+      <p><strong>Société :</strong> {{companyName}}</p>
+      <p><strong>Adresse :</strong> {{companyAddress}}</p>
+      <p><strong>Numero De TVA:</strong> {{companyMF}}</p>
+      <p><strong>Numero De Téléphone :</strong> {{companyPhone}}</p>
+      <p><strong>Email :</strong> {{companyEmail}}</p>
+    </div>
+    
+    <div class="invoice-title">
+      <h1>FACTURE</h1>
+      <div class="invoice-number">#{{invoiceNumber}}</div>
+      <div class="invoice-date">Créé: {{invoiceDate}}</div>
+    </div>
+    
+    <div class="party">
+      <h3>Client</h3>
+      <p><strong>Société :</strong> {{clientName}}</p>
+      <p><strong>Adresse :</strong> {{clientAddress}}</p>
+      <p><strong>Numero De TVA:</strong> {{clientMF}}</p>
+      <p><strong>Numero De Téléphone :</strong> {{clientPhone}}</p>
+    </div>
+  </div>
+
+  <!-- Items Table -->
+  <table class="items-table">
+    <thead>
+      <tr>
+        <th style="width: 12%;">R E F E R E N C E</th>
+        <th style="width: 30%;">D E S I G N A T I O N</th>
+        <th style="width: 8%;">T V A</th>
+        <th style="width: 12%;">Q U A N T I T E</th>
+        <th style="width: 15%;">P R I X  U N I T A I R E</th>
+        <th style="width: 10%;">R E M I S E</th>
+        <th style="width: 13%;">P R I X  T O T A L</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#items}}
+      <tr>
+        <td>{{reference}}</td>
+        <td>{{designation}}</td>
+        <td>{{tva}}%</td>
+        <td>{{quantity}}</td>
+        <td>{{unitPrice}}</td>
+        <td>{{discount}}</td>
+        <td>{{total}}</td>
+      </tr>
+      {{/items}}
+    </tbody>
+  </table>
+
+  <!-- TVA Summary -->
+  <table class="tva-table">
+    <thead>
+      <tr>
+        <th style="width: 33%;">TVA</th>
+        <th style="width: 33%;">Base</th>
+        <th style="width: 34%;">Montant TVA</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#tvaSummary}}
+      <tr>
+        <td>{{rate}}%</td>
+        <td>{{base}}</td>
+        <td>{{amount}}</td>
+      </tr>
+      {{/tvaSummary}}
+    </tbody>
+  </table>
+
+  <!-- Totals -->
+  <div class="totals">
+    <table>
+      <tr>
+        <td>Sous-total HT</td>
+        <td>{{subtotal}}</td>
+      </tr>
+      <tr>
+        <td>Total HT</td>
+        <td>{{totalHT}}</td>
+      </tr>
+      <tr>
+        <td>TVA</td>
+        <td>{{taxAmount}}</td>
+      </tr>
+      <tr>
+        <td>Timbre fiscal</td>
+        <td>{{stampDuty}}</td>
+      </tr>
+      <tr>
+        <td>Total TTC</td>
+        <td>{{totalTTC}}</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Amount in words -->
+  <div class="amount-words">
+    Arrêtée la présente facture à la somme de {{amountInWords}}.
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-row">
+      <p>📍{{companyAddress}}</p>
+      <p>📞{{companyPhone}}</p>
+    </div>
+    <div class="footer-row">
+      <p><strong>MF:</strong> {{companyMF}}</p>
+      <p><strong>RIB_BANQUE :</strong> {{companyRIB}}</p>
+    </div>
+  </div>
+</body>
+</html>

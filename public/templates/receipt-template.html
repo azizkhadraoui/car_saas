@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="x-ua-compatible" content="ie=edge" />
+  <title>Reçu de Paiement</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style type="text/css">
+    @media screen {
+      @font-face {
+        font-family: 'Source Sans Pro';
+        font-style: normal;
+        font-weight: 400;
+        src: local('Source Sans Pro Regular'), local('SourceSansPro-Regular'),
+          url(https://fonts.gstatic.com/s/sourcesanspro/v10/ODelI1aHBYDBqgeIAH2zlBM0YzuT7MdOe03otPbuUS0.woff)
+            format('woff');
+      }
+      @font-face {
+        font-family: 'Source Sans Pro';
+        font-style: normal;
+        font-weight: 700;
+        src: local('Source Sans Pro Bold'), local('SourceSansPro-Bold'),
+          url(https://fonts.gstatic.com/s/sourcesanspro/v10/toadOcfmlt9b38dHJxOBGFkQc6VGVFSmCnC_l7QZG60.woff)
+            format('woff');
+      }
+    }
+
+    body, table, td, a {
+      -ms-text-size-adjust: 100%;
+      -webkit-text-size-adjust: 100%;
+      font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
+      color: #000000;
+      background-color: #ffffff;
+    }
+
+    table {
+      border-collapse: collapse !important;
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid #000000;
+      border-radius: 0;
+    }
+
+    body {
+      margin: 0;
+      padding: 20px;
+      background-color: #fff;
+    }
+
+    h1 {
+      font-size: 24px;
+      font-weight: 700;
+      margin: 24px 0 12px 0;
+      color: #000000;
+    }
+
+    .header, .footer {
+      text-align: center;
+      padding: 20px 24px;
+      background-color: #ffffff;
+      border-bottom: 1px solid #000000;
+    }
+
+    .footer {
+      border-top: 1px solid #000000;
+      font-size: 12px;
+      color: #000000;
+    }
+
+    .logo img {
+      width: 48px;
+      height: auto;
+      filter: grayscale(100%);
+    }
+
+    .content {
+      padding: 24px;
+    }
+
+    .content p {
+      font-size: 16px;
+      line-height: 24px;
+      margin: 0 0 16px 0;
+      color: #000000;
+    }
+
+    .receipt-details {
+      width: 100%;
+      margin-bottom: 24px;
+      border: 1px solid #000000;
+    }
+
+    .receipt-details th,
+    .receipt-details td {
+      padding: 12px 16px;
+      font-size: 16px;
+      line-height: 24px;
+      border-bottom: 1px solid #000000;
+    }
+
+    .receipt-details th {
+      font-weight: 700;
+      text-align: left;
+      background-color: #ffffff;
+    }
+
+    .receipt-details tr:last-child td {
+      border-bottom: none;
+      font-weight: 700;
+    }
+
+    .two-columns {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      margin-bottom: 24px;
+      gap: 24px;
+    }
+
+    .column {
+      flex: 1 1 45%;
+      background: #fff;
+      padding: 16px;
+      border: 1px solid #000000;
+      font-size: 16px;
+      line-height: 24px;
+      color: #000000;
+    }
+
+    .column strong {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 700;
+      font-size: 14px;
+      text-transform: uppercase;
+    }
+
+    a {
+      color: #000000;
+      text-decoration: underline;
+    }
+    a:hover {
+      text-decoration: none;
+    }
+
+    @media (max-width: 480px) {
+      .two-columns {
+        flex-direction: column;
+      }
+      .column {
+        flex: 1 1 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- En-tête / Logo -->
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center">
+    <tr>
+      <td class="header">
+        <div class="logo">
+          <img src="https://yourdomain.com/logo.png" alt="Logo de l'entreprise" />
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Contenu principal -->
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" >
+    <tr>
+      <td class="content">
+        <h1>Reçu de Paiement</h1>
+        <p>Merci pour votre paiement. Voici le récapitulatif de votre transaction. Pour toute question, veuillez <a href="mailto:support@votredomaine.com">nous contacter</a>.</p>
+
+        <table class="receipt-details" role="presentation" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <th>Receipt #</th>
+            <td>{{receiptNumber}}</td>
+          </tr>
+          <tr>
+            <th>Payment Date</th>
+            <td>{{paymentDate}}</td>
+          </tr>
+          <tr>
+            <th>Payment Method</th>
+            <td>{{paymentMethod}}</td>
+          </tr>
+          {{#paymentReference}}
+          <tr>
+            <th>Reference</th>
+            <td>{{paymentReference}}</td>
+          </tr>
+          {{/paymentReference}}
+        </table>
+
+        <div class="two-columns">
+          <div class="column">
+            <strong>Received From</strong>
+            <div>{{clientName}}</div>
+            <div>{{clientAddress}}</div>
+            <div>{{clientCity}}, {{clientZip}} {{clientCountry}}</div>
+            {{#clientPhone}}<div>Téléphone : {{clientPhone}}</div>{{/clientPhone}}
+            {{#clientEmail}}<div>Email : {{clientEmail}}</div>{{/clientEmail}}
+          </div>
+
+          <div class="column">
+            <strong>Invoice Details</strong>
+            <div>Invoice #: {{invoiceNumber}}</div>
+            <div>Invoice Date: {{invoiceDate}}</div>
+            <div>Invoice Type: {{invoiceType}}</div>
+            {{#dueDate}}<div>Due Date: {{dueDate}}</div>{{/dueDate}}
+          </div>
+        </div>
+
+        <table class="receipt-details" role="presentation" cellpadding="0" cellspacing="0" border="0">
+          <tr>
+            <th>Description</th>
+            <th style="text-align: right;">Amount</th>
+          </tr>
+          <tr>
+            <td>Paiement pour la facture n°{{invoiceNumber}}</td>
+            <td style="text-align: right;">{{paymentAmount}}</td>
+          </tr>
+          <tr>
+            <th>Total Paid</th>
+            <th style="text-align: right;">{{paymentAmount}}</th>
+          </tr>
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+  <!-- Pied de page -->
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" >
+    <tr>
+      <td class="footer">
+        <p>Ceci est un reçu officiel pour votre paiement.</p>
+        <p>Veuillez conserver ce document pour vos archives.</p>
+        <p>{{companyName}} | <a href="mailto:{{companyEmail}}">{{companyEmail}}</a> | {{companyPhone}}</p>
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>
